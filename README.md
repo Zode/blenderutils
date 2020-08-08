@@ -1,4 +1,7 @@
-# blenderutils
-Various blender utilities
-
-Currently only does goldsrc texture one click import, but i'll add more functionality to this addon in the future
+# Features
+## Materials
+### Goldsrc
+* Import images & setup nodes for materials (chromes are automatically set up too)
+### Common
+* Turn texture to matcap (chrome)
+* turn texture to diffuse (no chrome)

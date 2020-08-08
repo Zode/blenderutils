@@ -4,7 +4,7 @@ from . import material_gui
 bl_info = {
 	"name" : "Zode's blender utils",
 	"author" : "Zode",
-	"version" : (1, 0),
+	"version" : (1, 1),
 	"blender" : (2, 80, 0),
 	"description" : "Adds various utility function(s) to blender",
 	"warning": "",
