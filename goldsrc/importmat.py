@@ -1,6 +1,6 @@
 import bpy
 
-from zodeutils.utils import Popup, FindOrMakeNode
+from ..utils import Popup, FindOrMakeNode
 
 def FixImportMaterials():
 	if not bpy.data.is_saved:

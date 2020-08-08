@@ -1,5 +1,5 @@
 import bpy
-from zodeutils import material_operators
+from . import material_operators
 
 class ZODEUTILS_MATERIALS(bpy.types.Panel):
 	bl_label="Zode's utils"

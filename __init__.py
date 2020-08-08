@@ -1,5 +1,5 @@
 import bpy
-from zodeutils import material_gui
+from . import material_gui
 
 bl_info = {
 	"name" : "Zode's blender utils",
