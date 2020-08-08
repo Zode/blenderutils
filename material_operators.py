@@ -1,5 +1,5 @@
 import bpy
-from ..goldsrc.importmat import FixImportMaterials
+from .goldsrc.importmat import FixImportMaterials
 
 class ZODEUTIS_GoldSrcMaterialImport(bpy.types.Operator):
 	bl_idname="zodeutils.goldsrc_material_import"
