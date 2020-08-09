@@ -29,14 +29,14 @@ class BakeSettings(bpy.types.PropertyGroup):
 	TargetWidth : bpy.props.IntProperty(
 		name="Width",
 		description="Bake texture width",
-		default=4096,
+		default=1024,
 		min=1
 	)
 	
 	TargetHeight : bpy.props.IntProperty(
 		name="Height",
 		description="Bake texture Height",
-		default=4096,
+		default=1024,
 		min=1
 	)
 	

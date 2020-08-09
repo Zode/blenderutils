@@ -54,6 +54,11 @@ class ZODEUTILS_BAKE(bpy.types.Operator):
 			return {"PASS_THROUGH"}
 			
 		bake(bakequeue[0]["mode"], bakequeue[0]["flags"])
+		if len(bakequeue) <= 0:
+			#early exit cuz of erroring in bake
+			self.cancel(context)
+			return {"FINISHED"}
+			
 		bakesdone.append(bakequeue[0]["mode"])
 		del bakequeue[0]
 		currentbake = None
