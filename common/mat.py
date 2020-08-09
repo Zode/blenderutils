@@ -31,8 +31,8 @@ def MakeMaterialMatcap():
 	mappingnode.vector_type = "POINT"
 	mappingnode.inputs["Location"].default_value[0] = 0.5
 	mappingnode.inputs["Location"].default_value[1] = 0.5
+	mappingnode.inputs["Scale"].default_value[0] = 0.5
 	mappingnode.inputs["Scale"].default_value[1] = 0.5
-	mappingnode.inputs["Scale"].default_value[2] = 0.5
 
 def MakeMaterialDiffuse():
 	mat = bpy.context.object.active_material
