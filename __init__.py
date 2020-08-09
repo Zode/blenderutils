@@ -1,5 +1,6 @@
 import bpy
 from . import material_gui
+from . import bake_gui
 
 bl_info = {
 	"name" : "Zode's blender utils",
@@ -14,9 +15,11 @@ bl_info = {
 
 def register():
 	material_gui.register()
+	bake_gui.register()
 
 def unregister():
 	material_gui.unregister()
+	bake_gui.unregister()
 
 if __name__ == "__main__":
 	register()

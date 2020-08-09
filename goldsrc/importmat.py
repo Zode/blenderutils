@@ -1,6 +1,6 @@
 import bpy
 
-from ..utils import Popup, FindOrMakeNode
+from ..utils import Popup, FindOrMakeNodeByLabel
 
 def FixImportMaterials():
 	if not bpy.data.is_saved:
@@ -13,7 +13,7 @@ def FixImportMaterials():
 		if not mat.use_nodes:
 			mat.use_nodes = True
 		
-		texturenode = FindOrMakeNode(mat.node_tree.nodes, "ShaderNodeTexImage", (-300.0, 218.0))
+		texturenode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeTexImage", "Albedo", (-300.0, 218.0))
 		
 		texturepath = f"//{mat.name}"
 		try:
@@ -34,9 +34,9 @@ def FixImportMaterials():
 		bsdf.inputs["Metallic"].default_value = 0
 
 		if "chrome" in texturepath.lower():
-			geometrynode = FindOrMakeNode(mat.node_tree.nodes, "ShaderNodeNewGeometry", (-942.0, 218.0))
-			vectornode = FindOrMakeNode(mat.node_tree.nodes, "ShaderNodeVectorTransform", (-729.0, 218.0))
-			mappingnode = FindOrMakeNode(mat.node_tree.nodes, "ShaderNodeMapping", (-516.0, 218.0))
+			geometrynode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeNewGeometry", "Chrome", (-942.0, 218.0))
+			vectornode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeVectorTransform", "Chrome", (-729.0, 218.0))
+			mappingnode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeMapping", "Chrome", (-516.0, 218.0))
 			mat.node_tree.links.new(geometrynode.outputs["Normal"], vectornode.inputs["Vector"])
 			mat.node_tree.links.new(vectornode.outputs["Vector"], mappingnode.inputs["Vector"])
 			mat.node_tree.links.new(mappingnode.outputs["Vector"], texturenode.inputs["Vector"])

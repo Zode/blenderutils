@@ -6,7 +6,7 @@ class MaterialSettings(bpy.types.PropertyGroup):
 		name="No specular & metallic",
 		description="Zero out specular & metallic",
 		default=True
-		)
+	)
 
 class ZODEUTILS_MATERIALS(bpy.types.Panel):
 	bl_label="Zode's utils"
