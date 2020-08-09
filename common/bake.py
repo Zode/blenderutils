@@ -51,16 +51,30 @@ def bake(mode, flags):
 	nodetree.nodes.active = texturenode
 	texturenode.image = texture
 
-	bpy.ops.object.bake(type=mode, 
-		normal_space=bakesettings.NormalSpace,
-		normal_r=bakesettings.NormalR, 
-		normal_g=bakesettings.NormalG,
-		normal_b=bakesettings.NormalB,
-		cage_extrusion=bakesettings.RayDistance,
-		pass_filter=flags,
-		save_mode="INTERNAL",
-		use_selected_to_active=True
-	)
+	if bakesettings.UseCage:
+		bpy.ops.object.bake(type=mode, 
+			normal_space=bakesettings.NormalSpace,
+			normal_r=bakesettings.NormalR, 
+			normal_g=bakesettings.NormalG,
+			normal_b=bakesettings.NormalB,
+			cage_extrusion=bakesettings.RayDistance,
+			pass_filter=flags,
+			save_mode="INTERNAL",
+			use_selected_to_active=True,
+			use_cage=True,
+			cage_object=bakesettings.CageObject.name
+		)
+	else:
+		bpy.ops.object.bake(type=mode, 
+			normal_space=bakesettings.NormalSpace,
+			normal_r=bakesettings.NormalR, 
+			normal_g=bakesettings.NormalG,
+			normal_b=bakesettings.NormalB,
+			cage_extrusion=bakesettings.RayDistance,
+			pass_filter=flags,
+			save_mode="INTERNAL",
+			use_selected_to_active=True
+		)
 	
 	if mode is "NORMAL":
 		texturenode.location = (-530.0, -188.0)

@@ -1,5 +1,5 @@
 import bpy
-from .goldsrc.importmat import FixImportMaterials
+from .goldsrc.importmat import FixImportMaterials, FixImportAllMaterials
 from .common.mat import *
 
 class ZODEUTILS_GoldSrcMaterialImport(bpy.types.Operator):
@@ -13,6 +13,23 @@ class ZODEUTILS_GoldSrcMaterialImport(bpy.types.Operator):
 	
 	def execute(self, context):
 		if FixImportMaterials():
+			self.report({"INFO"}, "Imported materials")
+		else:
+			self.report({"INFO"}, "Didn't import materials")
+			
+		return {"FINISHED"}
+		
+class ZODEUTILS_GoldSrcMaterialImportAll(bpy.types.Operator):
+	bl_idname="zodeutils.goldsrc_material_import_all"
+	bl_label="Import materials for all objects"
+	bl_description = "Automatically sets up nodes & loads .bmp files from the .blend's folder\nAutomatically tries to detect chrome setups for all objects in scene"
+	
+	@classmethod
+	def poll(cls, context):
+		return len(bpy.data.objects) > 0
+	
+	def execute(self, context):
+		if FixImportAllMaterials():
 			self.report({"INFO"}, "Imported materials")
 		else:
 			self.report({"INFO"}, "Didn't import materials")
@@ -49,10 +66,12 @@ class ZODEUTILS_MaterialToDiffuse(bpy.types.Operator):
 
 def register():
 	bpy.utils.register_class(ZODEUTILS_GoldSrcMaterialImport)
+	bpy.utils.register_class(ZODEUTILS_GoldSrcMaterialImportAll)
 	bpy.utils.register_class(ZODEUTILS_MaterialToMatcap)
 	bpy.utils.register_class(ZODEUTILS_MaterialToDiffuse)
 
 def unregister():
 	bpy.utils.unregister_class(ZODEUTILS_GoldSrcMaterialImport)
+	bpy.utils.unregister_class(ZODEUTILS_GoldSrcMaterialImportAll)
 	bpy.utils.unregister_class(ZODEUTILS_MaterialToMatcap)
 	bpy.utils.unregister_class(ZODEUTILS_MaterialToDiffuse)

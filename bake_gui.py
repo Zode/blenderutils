@@ -1,5 +1,6 @@
 import bpy
 from . import bake_operators
+from . import addon_updater_ops
 
 class BakeSettings(bpy.types.PropertyGroup):
 	SimpleMode : bpy.props.BoolProperty(
@@ -13,6 +14,18 @@ class BakeSettings(bpy.types.PropertyGroup):
 		description="Save bake(s) to png files, relative to .blend",
 		default=False
 		)
+	
+	UseCage : bpy.props.BoolProperty(
+		name="Use cage",
+		description="Cast rays to active object from cage",
+		default=False
+		)
+		
+	CageObject : bpy.props.PointerProperty(
+		name="Cage object",
+		description="Cage object to use instead of calculating the cage from the active object with cage extrusion",
+		type=bpy.types.Object
+	)
 	
 	LowpolyObject : bpy.props.PointerProperty(
 		name="Lowpoly object",
@@ -266,6 +279,10 @@ class ZODEUTILS_BAKE(bpy.types.Panel):
 		row.prop(context.scene.zodeutils_bake, "RayDistance")
 		row.prop(context.scene.zodeutils_bake, "SaveToFile")
 		
+		box.prop(context.scene.zodeutils_bake, "UseCage")
+		if context.scene.zodeutils_bake.UseCage:
+			box.prop(context.scene.zodeutils_bake, "CageObject")
+		
 		row = self.layout.row()
 		row.prop(context.scene.zodeutils_bake, "BakeAO", icon=bake_operators.GetIconForBake("AO"))
 		row.prop(context.scene.zodeutils_bake, "BakeShadow", icon=bake_operators.GetIconForBake("SHADOW"))
@@ -328,6 +345,9 @@ class ZODEUTILS_BAKE(bpy.types.Panel):
 			self.layout.separator()
 			
 		self.layout.operator("zodeutils.bake", icon="TEXTURE")
+		addon_updater_ops.check_for_update_background()
+		if addon_updater_ops.updater.update_ready:
+			addon_updater_ops.update_notice_box_ui(self, context)
 
 
 def register():
