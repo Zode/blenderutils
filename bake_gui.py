@@ -21,7 +21,7 @@ class BakeSettings(bpy.types.PropertyGroup):
 	)
 		
 	HighpolyObject : bpy.props.PointerProperty(
-		name="Highpoy object",
+		name="Highpoly object",
 		description="Target object to bake from",
 		type=bpy.types.Object
 	)
