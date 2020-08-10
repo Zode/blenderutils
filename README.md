@@ -3,8 +3,7 @@
 ### Goldsrc
 * Import images & setup nodes for materials (chromes are automatically set up too)
 ### Common
-* Turn texture to matcap (chrome)
-* Turn texture to diffuse (no chrome)
+* Turn material between albedo ("diffuse"), matcap and additive
 * EZ one stop shop for texture baking
 
 #  Installing & Updating

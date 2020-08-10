@@ -17,16 +17,21 @@ class ZODEUTILS_MATERIALS(bpy.types.Panel):
 	bl_context = "material"
 	
 	def draw(self, context):
+		self.layout.label(text="Goldsrc specific:")
 		box = self.layout.box()
-		box.label(text="Goldsrc:")
-		box.operator("zodeutils.goldsrc_material_import", icon="SHADING_TEXTURE")
-		box.operator("zodeutils.goldsrc_material_import_all", icon="SHADING_TEXTURE")
-		
+		box.label(text="Import materials:")
+		row = box.row()
+		row.operator("zodeutils.goldsrc_material_import", icon="SHADING_TEXTURE")
+		row.operator("zodeutils.goldsrc_material_import_all", icon="SHADING_TEXTURE")
+
+		self.layout.label(text="Common:")
 		box = self.layout.box()
-		box.label(text="Common:")
+		box.label(text="Swap selected material to:")
 		box.prop(context.scene.zodeutils_material, "NoSpec")
-		box.operator("zodeutils.material_to_matcap", icon="SHADING_RENDERED")
-		box.operator("zodeutils.material_to_diffuse", icon="SHADING_SOLID")
+		row = box.row()
+		row.operator("zodeutils.material_to_diffuse", icon="SHADING_SOLID")
+		row.operator("zodeutils.material_to_matcap", icon="SHADING_RENDERED")
+		row.operator("zodeutils.material_to_additive", icon="OVERLAY")
 		
 		addon_updater_ops.check_for_update_background()
 		if addon_updater_ops.updater.update_ready:

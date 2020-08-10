@@ -27,11 +27,15 @@ def FixImportMaterials():
 		
 		#not using a fancy find function here since we just assume Principled BSDF always exists :P
 		bsdf = mat.node_tree.nodes.get("Principled BSDF")
+		bsdf.label = "Principled BSDF"
 		mat.node_tree.links.new(texturenode.outputs["Color"], bsdf.inputs["Base Color"])
 		
 		#goldsrc/sven doesn't have fancy shaders... yet
 		bsdf.inputs["Specular"].default_value = 0
 		bsdf.inputs["Metallic"].default_value = 0
+		
+		mat.blend_method = "OPAQUE"
+		mat["zodeutils_type"] = "DIFFUSE"
 
 		if "chrome" in texturepath.lower():
 			geometrynode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeNewGeometry", "Chrome", (-942.0, 218.0))
@@ -49,6 +53,8 @@ def FixImportMaterials():
 			mappingnode.inputs["Location"].default_value[1] = 0.5
 			mappingnode.inputs["Scale"].default_value[0] = 0.5
 			mappingnode.inputs["Scale"].default_value[1] = 0.5
+			
+			mat["zodeutils_type"] = "MATCAP"
 		
 	return True
 	
@@ -81,11 +87,15 @@ def FixImportAllMaterials():
 				
 				#not using a fancy find function here since we just assume Principled BSDF always exists :P
 				bsdf = mat.node_tree.nodes.get("Principled BSDF")
+				bsdf.label = "Principled BSDF"
 				mat.node_tree.links.new(texturenode.outputs["Color"], bsdf.inputs["Base Color"])
 				
 				#goldsrc/sven doesn't have fancy shaders... yet
 				bsdf.inputs["Specular"].default_value = 0
 				bsdf.inputs["Metallic"].default_value = 0
+				
+				mat.blend_method = "OPAQUE"
+				mat["zodeutils_type"] = "DIFFUSE"
 
 				if "chrome" in texturepath.lower():
 					geometrynode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeNewGeometry", "Chrome", (-942.0, 218.0))
@@ -103,5 +113,7 @@ def FixImportAllMaterials():
 					mappingnode.inputs["Location"].default_value[1] = 0.5
 					mappingnode.inputs["Scale"].default_value[0] = 0.5
 					mappingnode.inputs["Scale"].default_value[1] = 0.5
+					
+					mat["zodeutils_type"] = "MATCAP"
 				
 	return True

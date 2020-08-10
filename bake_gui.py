@@ -32,6 +32,19 @@ class BakeSettings(bpy.types.PropertyGroup):
 		description="Target object to bake to",
 		type=bpy.types.Object
 	)
+	
+	def TargetMaterialItems(self, context):
+		items = []
+		for index, mat in enumerate(context.scene.zodeutils_bake.LowpolyObject.material_slots):
+			items.append((mat.name, mat.name, ""))
+			
+		return items
+	
+	TargetMaterial : bpy.props.EnumProperty(
+		name="Target material",
+		description="Target material in lowpoly object to bake to",
+		items=TargetMaterialItems
+	)
 		
 	HighpolyObject : bpy.props.PointerProperty(
 		name="Highpoly object",
@@ -272,6 +285,7 @@ class ZODEUTILS_BAKE(bpy.types.Panel):
 		box.label(text="Bake settings:")
 		box.prop(context.scene.zodeutils_bake, "HighpolyObject")
 		box.prop(context.scene.zodeutils_bake, "LowpolyObject")
+		box.prop(context.scene.zodeutils_bake, "TargetMaterial")
 		row = box.row()
 		row.prop(context.scene.zodeutils_bake, "TargetWidth")
 		row.prop(context.scene.zodeutils_bake, "TargetHeight")
@@ -343,8 +357,9 @@ class ZODEUTILS_BAKE(bpy.types.Panel):
 			self.layout.label(text="Render engine is not set to cycles!", icon="ERROR")
 			self.layout.operator("zodeutils.bake_fix_engine", icon="MODIFIER")
 			self.layout.separator()
-			
+		
 		self.layout.operator("zodeutils.bake", icon="TEXTURE")
+		
 		addon_updater_ops.check_for_update_background()
 		if addon_updater_ops.updater.update_ready:
 			addon_updater_ops.update_notice_box_ui(self, context)

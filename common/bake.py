@@ -1,6 +1,6 @@
 import bpy
 import random
-from ..utils import Popup, FindOrMakeNodeByLabel, FindOrMakeImage, SceneUnselectAll, NodesUnselectAll
+from ..utils import Popup, FindOrMakeNodeByLabel, FindOrMakeImage, SceneUnselectAll, NodesUnselectAll, GetMaterialId
 from .. import bake_operators
 
 def bake(mode, flags):
@@ -39,12 +39,12 @@ def bake(mode, flags):
 		return
 	
 	#todo: multiple material handling
-	target.active_material_index = 0
+	target.active_material_index = GetMaterialId(bakesettings.TargetMaterial, target.material_slots)
 	
 	texture = FindOrMakeImage(f"{target.name}_{mode.lower()}", width=width, height=height)
 	
 	#nodes
-	nodetree = target.material_slots[0].material.node_tree
+	nodetree = target.material_slots[bakesettings.TargetMaterial].material.node_tree
 	NodesUnselectAll(nodetree.nodes)
 	texturenode = FindOrMakeNodeByLabel(nodetree.nodes, "ShaderNodeTexImage", mode.lower(), (0.0, 0.0))
 	texturenode.select = True
