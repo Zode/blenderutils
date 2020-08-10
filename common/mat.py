@@ -2,9 +2,6 @@ import bpy
 
 from ..utils import Popup, FindNode, FindOrMakeNodeByLabel, CleanMaterial
 
-#bpy.context.object.active_material.blend_method = 'BLEND'
-#OPAQUE
-
 def MakeMaterialDiffuse():
 	mat = bpy.context.object.active_material
 	

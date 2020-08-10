@@ -79,6 +79,7 @@ def bake(mode, flags):
 	if mode is "NORMAL":
 		texturenode.location = (-530.0, -188.0)
 		normalnode = FindOrMakeNodeByLabel(nodetree.nodes, "ShaderNodeNormalMap", "Normal", (-219, -188.0))
+		normalnode.space = bakesettings.NormalSpace
 		nodetree.links.new(texturenode.outputs["Color"], normalnode.inputs["Color"])
 		nodetree.links.new(normalnode.outputs["Normal"], nodetree.nodes.get("Principled BSDF").inputs["Normal"])
 	else: #shrug throw at random location cuz i'm not experienced enough to know how these could be utilized in nodes
