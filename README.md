@@ -1,9 +1,11 @@
+Target blender version: 2.83
+
 # Features
 ## Materials
 ### Goldsrc
 * Import images & setup nodes for materials (chromes are automatically set up too)
 ### Common
-* Turn material between albedo ("diffuse"), matcap and additive
+* Turn material between diffuse and matcap (with optional additive mode)
 * EZ one stop shop for texture baking
 
 #  Installing & Updating
