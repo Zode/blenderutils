@@ -6,8 +6,8 @@ from . import bake_gui
 bl_info = {
 	"name" : "Zode's blender utils",
 	"author" : "Zode",
-	"version" : (1, 2, 1),
-	"blender" : (2, 80, 0),
+	"version" : (1, 2, 2),
+	"blender" : (2, 83, 0),
 	"description" : "Adds various utility function(s) to blender",
 	"warning": "",
 	"wiki_url": "https://github.com/Zode/blenderutils",

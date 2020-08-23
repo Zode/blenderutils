@@ -64,30 +64,14 @@ class ZODEUTILS_MaterialToMatcap(bpy.types.Operator):
 		self.report({"INFO"}, "Material turned to matcap")
 		return {"FINISHED"}
 
-class ZODEUTILS_MaterialToAdditive(bpy.types.Operator):
-	bl_idname="zodeutils.material_to_additive"
-	bl_label="Additive"
-	bl_description = "Swap node setup to additive setup"
-	
-	@classmethod
-	def poll(cls, context):
-		return bpy.context.object.active_material is not None
-	
-	def execute(self, context):
-		MakeMaterialAdditive()
-		self.report({"INFO"}, "Material turned to additive")
-		return {"FINISHED"}
-
 def register():
 	bpy.utils.register_class(ZODEUTILS_GoldSrcMaterialImport)
 	bpy.utils.register_class(ZODEUTILS_GoldSrcMaterialImportAll)
 	bpy.utils.register_class(ZODEUTILS_MaterialToMatcap)
 	bpy.utils.register_class(ZODEUTILS_MaterialToDiffuse)
-	bpy.utils.register_class(ZODEUTILS_MaterialToAdditive)
 
 def unregister():
 	bpy.utils.unregister_class(ZODEUTILS_GoldSrcMaterialImport)
 	bpy.utils.unregister_class(ZODEUTILS_GoldSrcMaterialImportAll)
 	bpy.utils.unregister_class(ZODEUTILS_MaterialToMatcap)
 	bpy.utils.unregister_class(ZODEUTILS_MaterialToDiffuse)
-	bpy.utils.unregister_class(ZODEUTILS_MaterialToAdditive)

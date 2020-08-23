@@ -66,27 +66,34 @@ def CleanMaterial(mat):
 	if not "zodeutils_type" in mat:
 		return False
 		
+	if type(mat["zodeutils_type"]) is not list:
+		mat["zodeutils_type"] = [mat["zodeutils_type"]]
+	
 	# fix earlier imports not having the label set
 	bsdf = FindNode(mat.node_tree.nodes, "ShaderNodeBsdfPrincipled")
 	if bsdf is not None:
 		bsdf.label = "Principled BSDF"
 		
-	type = mat["zodeutils_type"]
-	if type == "DIFFUSE":
-		mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfPrincipled", "Principled BSDF"))
-		return True
-	elif type == "MATCAP":
-		mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfPrincipled", "Principled BSDF"))
-		mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeNewGeometry", "Chrome"))
-		mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeVectorTransform", "Chrome"))
-		mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeMapping", "Chrome"))
-		return True
-	elif type == "ADDITIVE":
-		mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfTransparent", "Additive"))
-		mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeAddShader", "Additive"))
-		return True
+	types = mat["zodeutils_type"]
+	retclean = False
+	for t in types:
+		if t == "DIFFUSE" and "ADDITIVE" not in types:
+			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfPrincipled", "Principled BSDF"))
+			retclean = True
+		elif t == "MATCAP":
+			if "ADDITIVE" not in types:
+				mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfPrincipled", "Principled BSDF"))
+				
+			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeNewGeometry", "Chrome"))
+			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeVectorTransform", "Chrome"))
+			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeMapping", "Chrome"))
+			retclean = True
+		elif t == "ADDITIVE":
+			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfTransparent", "Additive"))
+			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeAddShader", "Additive"))
+			retclean = True
 		
-	return False
+	return retclean
 	
 def GetMaterialId(material, materialslots):
 	for index, mat in enumerate(materialslots):

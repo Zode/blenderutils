@@ -2,6 +2,8 @@ import bpy
 
 from ..utils import Popup, FindOrMakeNodeByLabel
 
+#TODO: make both functions call the mat.py ones for node setups
+
 def FixImportMaterials():
 	if not bpy.data.is_saved:
 		Popup(message="File must be saved for relative paths!", title="Error", icon="ERROR")
@@ -25,6 +27,10 @@ def FixImportMaterials():
 		
 		texturenode.image = texture
 		
+		#skip if already has previous setups
+		if "zodeutils_type" in mat:
+			return True
+		
 		#not using a fancy find function here since we just assume Principled BSDF always exists :P
 		bsdf = mat.node_tree.nodes.get("Principled BSDF")
 		bsdf.label = "Principled BSDF"
@@ -35,7 +41,7 @@ def FixImportMaterials():
 		bsdf.inputs["Metallic"].default_value = 0
 		
 		mat.blend_method = "OPAQUE"
-		mat["zodeutils_type"] = "DIFFUSE"
+		mat["zodeutils_type"] = ["DIFFUSE"]
 
 		if "chrome" in texturepath.lower():
 			geometrynode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeNewGeometry", "Chrome", (-942.0, 218.0))
@@ -54,7 +60,7 @@ def FixImportMaterials():
 			mappingnode.inputs["Scale"].default_value[0] = 0.5
 			mappingnode.inputs["Scale"].default_value[1] = 0.5
 			
-			mat["zodeutils_type"] = "MATCAP"
+			mat["zodeutils_type"] = ["MATCAP"]
 		
 	return True
 	
@@ -85,6 +91,10 @@ def FixImportAllMaterials():
 				
 				texturenode.image = texture
 				
+				#skip if already has previous setups
+				if "zodeutils_type" in mat:
+					return True
+				
 				#not using a fancy find function here since we just assume Principled BSDF always exists :P
 				bsdf = mat.node_tree.nodes.get("Principled BSDF")
 				bsdf.label = "Principled BSDF"
@@ -95,7 +105,7 @@ def FixImportAllMaterials():
 				bsdf.inputs["Metallic"].default_value = 0
 				
 				mat.blend_method = "OPAQUE"
-				mat["zodeutils_type"] = "DIFFUSE"
+				mat["zodeutils_type"] = ["DIFFUSE"]
 
 				if "chrome" in texturepath.lower():
 					geometrynode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeNewGeometry", "Chrome", (-942.0, 218.0))
@@ -114,6 +124,6 @@ def FixImportAllMaterials():
 					mappingnode.inputs["Scale"].default_value[0] = 0.5
 					mappingnode.inputs["Scale"].default_value[1] = 0.5
 					
-					mat["zodeutils_type"] = "MATCAP"
+					mat["zodeutils_type"] = ["MATCAP"]
 				
 	return True

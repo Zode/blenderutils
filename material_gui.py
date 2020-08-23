@@ -8,6 +8,12 @@ class MaterialSettings(bpy.types.PropertyGroup):
 		description="Zero out specular & metallic",
 		default=True
 	)
+	
+	Additive : bpy.props.BoolProperty(
+		name="Additive",
+		description="Make it additive also!",
+		default=False
+	)
 
 class ZODEUTILS_MATERIALS(bpy.types.Panel):
 	bl_label="Zode's utils"
@@ -28,10 +34,10 @@ class ZODEUTILS_MATERIALS(bpy.types.Panel):
 		box = self.layout.box()
 		box.label(text="Swap selected material to:")
 		box.prop(context.scene.zodeutils_material, "NoSpec")
+		box.prop(context.scene.zodeutils_material, "Additive")
 		row = box.row()
 		row.operator("zodeutils.material_to_diffuse", icon="SHADING_SOLID")
 		row.operator("zodeutils.material_to_matcap", icon="SHADING_RENDERED")
-		row.operator("zodeutils.material_to_additive", icon="OVERLAY")
 		
 		addon_updater_ops.check_for_update_background()
 		if addon_updater_ops.updater.update_ready:
