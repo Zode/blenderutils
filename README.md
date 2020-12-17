@@ -10,6 +10,6 @@ Target blender version: 2.83
 
 #  Installing & Updating
 ## Installing
-Happens as any blender addon would, grab a release as a .zip or the master as a .zip and slap it in blender
+Happens as any blender addon would, grab the master (not the release) as a .zip and slap it in blender
 ## Updating
 The addon now includes automatic update checking. No need to hassle with that stuff anymore!
