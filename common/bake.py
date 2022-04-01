@@ -32,7 +32,7 @@ def bake(mode, flags):
 		bake_operators.ClearBakeQueue()
 		return
 	
-	target = bpy.context.selected_objects[0]
+	target = bpy.context.selected_objects[1]
 	if len(target.material_slots) <= 0:
 		Popup(message="Can't bake: Lowpoly mesh has no material!", title="Error", icon="ERROR")
 		bake_operators.ClearBakeQueue()

@@ -6,7 +6,7 @@ from . import bake_gui
 bl_info = {
 	"name" : "Zode's blender utils",
 	"author" : "Zode",
-	"version" : (1, 2, 3),
+	"version" : (1, 2, 4),
 	"blender" : (3, 1, 0),
 	"description" : "Adds various utility function(s) to blender",
 	"warning": "",
