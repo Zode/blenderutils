@@ -6,8 +6,8 @@ from . import bake_gui
 bl_info = {
 	"name" : "Zode's blender utils",
 	"author" : "Zode",
-	"version" : (1, 2, 2),
-	"blender" : (2, 83, 0),
+	"version" : (1, 2, 3),
+	"blender" : (3, 1, 0),
 	"description" : "Adds various utility function(s) to blender",
 	"warning": "",
 	"wiki_url": "https://github.com/Zode/blenderutils",
@@ -15,38 +15,39 @@ bl_info = {
 	"category" : "User Interface"
 }
 
+@addon_updater_ops.make_annotations
 class ZODEUTILS_PREFERENCES(bpy.types.AddonPreferences):
 	bl_idname = __package__
 	
 	auto_check_update = bpy.props.BoolProperty(
 		name="Auto-check for Update",
 		description="If enabled, auto-check for updates using an interval",
-		default=True,
+		default=False,
 		)
-	updater_intrval_months = bpy.props.IntProperty(
+	updater_interval_months = bpy.props.IntProperty(
 		name='Months',
 		description="Number of months between checking for updates",
 		default=0,
 		min=0
 		)
-	updater_intrval_days = bpy.props.IntProperty(
+	updater_interval_days = bpy.props.IntProperty(
 		name='Days',
 		description="Number of days between checking for updates",
 		default=0,
 		min=0,
 		max=31
 		)
-	updater_intrval_hours = bpy.props.IntProperty(
+	updater_interval_hours = bpy.props.IntProperty(
 		name='Hours',
 		description="Number of hours between checking for updates",
-		default=0,
+		default=6,
 		min=0,
 		max=23
 		)
-	updater_intrval_minutes = bpy.props.IntProperty(
+	updater_interval_minutes = bpy.props.IntProperty(
 		name='Minutes',
 		description="Number of minutes between checking for updates",
-		default=15,
+		default=0,
 		min=0,
 		max=59
 		)
