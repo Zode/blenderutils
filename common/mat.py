@@ -31,21 +31,7 @@ def MakeMaterialDiffuse():
 	
 	#additive override
 	if bpy.context.scene.zodeutils_material.Additive:
-		mat.node_tree.nodes.remove(bsdfnode)
-		
-		addnode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeAddShader", "Additive", (97.0, 298.0))
-		bsdfnode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfTransparent", "Additive", (-111.0, 93.0))
-		
-		texturenode.location = (-206.0, 379.0)
-		
-		mat.node_tree.links.new(texturenode.outputs["Color"], addnode.inputs[0])
-		mat.node_tree.links.new(bsdfnode.outputs["BSDF"], addnode.inputs[1])
-		
-		outputnode = FindNode(mat.node_tree.nodes, "ShaderNodeOutputMaterial")
-		mat.node_tree.links.new(addnode.outputs["Shader"], outputnode.inputs["Surface"])
-		
-		mat.blend_method = "BLEND"
-		mat["zodeutils_type"] = ["DIFFUSE", "ADDITIVE"]
+		MaterialAddAdditive(mat)
 		
 
 def MakeMaterialMatcap():
@@ -94,37 +80,16 @@ def MakeMaterialMatcap():
 	
 	#additive override
 	if bpy.context.scene.zodeutils_material.Additive:
-		mat.node_tree.nodes.remove(bsdfnode)
-		
-		addnode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeAddShader", "Additive", (97.0, 298.0))
-		bsdfnode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfTransparent", "Additive", (-111.0, 93.0))
-		
-		texturenode.location = (-206.0, 379.0)
-		geometrynode.location = (-837.0, 218.0)
-		vectornode.location = (-624.0, 218.0)
-		mappingnode.location = (-411.0, 218.0)
-		
-		mat.node_tree.links.new(texturenode.outputs["Color"], addnode.inputs[0])
-		mat.node_tree.links.new(bsdfnode.outputs["BSDF"], addnode.inputs[1])
-		mat.node_tree.links.new(addnode.outputs["Shader"], outputnode.inputs["Surface"])
-		
-		mat.blend_method = "BLEND"
-		mat["zodeutils_type"] = ["MATCAP", "ADDITIVE"]
+		MaterialAddAdditive(mat)
 	
-def MakeMaterialAdditive():
-	mat = bpy.context.object.active_material
-	
-	if not mat.use_nodes:
-		mat.use_nodes = True
+def MaterialAddAdditive(mat):
+	bsdfnode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfPrincipled", "Principled BSDF", (10.0, 300.0))
+	mat.node_tree.nodes.remove(bsdfnode)
 		
-	if not CleanMaterial(mat):
-		fixbsdf = mat.node_tree.nodes.get("Principled BSDF")
-		mat.node_tree.nodes.remove(fixbsdf)
-	
-	texturenode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeTexImage", "Albedo", (-206.0, 379.0))
 	addnode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeAddShader", "Additive", (97.0, 298.0))
 	bsdfnode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfTransparent", "Additive", (-111.0, 93.0))
-	
+	texturenode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeTexImage", "Albedo", (-300.0, 218.0))
+
 	texturenode.location = (-206.0, 379.0)
 	
 	mat.node_tree.links.new(texturenode.outputs["Color"], addnode.inputs[0])
@@ -134,4 +99,6 @@ def MakeMaterialAdditive():
 	mat.node_tree.links.new(addnode.outputs["Shader"], outputnode.inputs["Surface"])
 	
 	mat.blend_method = "BLEND"
-	mat["zodeutils_type"] = ["ADDITIVE"]
+	temp = mat["zodeutils_type"]
+	temp.append("ADDITIVE")
+	mat["zodeutils_type"] = temp

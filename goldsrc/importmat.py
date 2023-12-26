@@ -26,6 +26,7 @@ def FixImportMaterials():
 			return False
 		
 		texturenode.image = texture
+		texturenode.interpolation = "Closest"
 		
 		#skip if already has previous setups
 		if "zodeutils_type" in mat:
@@ -90,6 +91,7 @@ def FixImportAllMaterials():
 					return False
 				
 				texturenode.image = texture
+				texturenode.interpolation = "Closest"
 				
 				#skip if already has previous setups
 				if "zodeutils_type" in mat:
