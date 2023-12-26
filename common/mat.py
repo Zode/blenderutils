@@ -18,7 +18,7 @@ def MakeMaterialDiffuse():
 	texturenode.location = (-300.0, 218.0)
 	
 	if bpy.context.scene.zodeutils_material.NoSpec:
-		bsdfnode.inputs["Specular"].default_value = 0
+		bsdfnode.inputs["Specular IOR Level"].default_value = 0
 		bsdfnode.inputs["Metallic"].default_value = 0
 	
 	mat.node_tree.links.new(texturenode.outputs["Color"], bsdfnode.inputs["Base Color"])
@@ -78,7 +78,7 @@ def MakeMaterialMatcap():
 	mappingnode.inputs["Scale"].default_value[0] = 0.5
 	mappingnode.inputs["Scale"].default_value[1] = 0.5
 	if bpy.context.scene.zodeutils_material.NoSpec:
-		bsdfnode.inputs["Specular"].default_value = 0
+		bsdfnode.inputs["Specular IOR Level"].default_value = 0
 		bsdfnode.inputs["Metallic"].default_value = 0
 		
 	mat.node_tree.links.new(texturenode.outputs["Color"], bsdfnode.inputs["Base Color"])

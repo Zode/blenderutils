@@ -37,7 +37,7 @@ def FixImportMaterials():
 		mat.node_tree.links.new(texturenode.outputs["Color"], bsdf.inputs["Base Color"])
 		
 		#goldsrc/sven doesn't have fancy shaders... yet
-		bsdf.inputs["Specular"].default_value = 0
+		bsdf.inputs["Specular IOR Level"].default_value = 0
 		bsdf.inputs["Metallic"].default_value = 0
 		
 		mat.blend_method = "OPAQUE"
@@ -101,7 +101,7 @@ def FixImportAllMaterials():
 				mat.node_tree.links.new(texturenode.outputs["Color"], bsdf.inputs["Base Color"])
 				
 				#goldsrc/sven doesn't have fancy shaders... yet
-				bsdf.inputs["Specular"].default_value = 0
+				bsdf.inputs["Specular IOR Level"].default_value = 0
 				bsdf.inputs["Metallic"].default_value = 0
 				
 				mat.blend_method = "OPAQUE"
