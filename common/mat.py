@@ -164,11 +164,12 @@ def MaterialAddTransparency(mat):
 		mat.node_tree.links.new(transparent.outputs["BSDF"], mix.inputs[1])
 		mat.node_tree.links.new(addnode.outputs["Shader"], mix.inputs[2])
 		mat.node_tree.links.new(mix.outputs["Shader"], outputnode.inputs["Surface"])
+		mat.blend_method = "BLEND"
 	else:
 		bsdfnode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfPrincipled", "Principled BSDF", (10.0, 300.0))
 		mat.node_tree.links.new(inv.outputs["Color"], bsdfnode.inputs["Alpha"])
+		mat.blend_method = "CLIP"
 	
-	mat.blend_method = "CLIP"
 	temp = mat["zodeutils_type"]
 	temp.append("TRANSPARENT")
 	mat["zodeutils_type"] = temp
