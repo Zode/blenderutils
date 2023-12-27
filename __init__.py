@@ -2,6 +2,7 @@ import bpy
 from . import addon_updater_ops
 from . import material_gui
 from . import bake_gui
+from .classicweight import *
 
 bl_info = {
 	"name" : "Zode's blender utils",
@@ -73,13 +74,27 @@ def register():
 	material_gui.register()
 	bake_gui.register()
 	bpy.utils.register_class(ZODEUTILS_WeightViewToggle)
+	bpy.utils.register_class(ZODEUTILS_CVWEIGHT_OT_magic)
+	bpy.utils.register_class(ZODEUTILS_CVWEIGHT_OT_AssignAll)
+	bpy.utils.register_class(ZODEUTILS_CVWEIGHT_OT_AssignSelected)
+	bpy.utils.register_class(ZODEUTILS_CVWEIGHT_OT_CancelAssign)
+	bpy.utils.register_class(VIEW3D_MT_PIE_ClassicVertexWeight)
+	bpy.utils.register_class(ZODEUTILS_CVWEIGHT_OT_Info)
 
 	window_manager = bpy.context.window_manager
 	if window_manager.keyconfigs.addon:
-		keymap = window_manager.keyconfigs.addon.keymaps.new(name="3D View", space_type="VIEW_3D")
-		keymap_item = keymap.keymap_items.new(ZODEUTILS_WeightViewToggle.bl_idname, "Q", "PRESS", shift=True, ctrl=True)
+		toglgegradient = window_manager.keyconfigs.addon.keymaps.new(name="3D View", space_type="VIEW_3D")
+		toglgegradient_item = toglgegradient.keymap_items.new(ZODEUTILS_WeightViewToggle.bl_idname, "Q", "PRESS", shift=True, ctrl=True)
+		global_addon_keymaps.append((toglgegradient, toglgegradient_item))
+		
+		cv = window_manager.keyconfigs.addon.keymaps.new(name="3D View", space_type="VIEW_3D")
+		cv_item = cv.keymap_items.new(ZODEUTILS_CVWEIGHT_OT_magic.bl_idname, "Q", "PRESS", shift=True)
+		global_addon_keymaps.append((cv, cv_item))
 
-		global_addon_keymaps.append((keymap, keymap_item))
+	if zodeutils_load_handler in bpy.app.handlers.load_post:
+		return
+	
+	bpy.app.handlers.load_post.append(zodeutils_load_handler)
 
 def unregister():
 	addon_updater_ops.unregister()
@@ -87,6 +102,12 @@ def unregister():
 	material_gui.unregister()
 	bake_gui.unregister()
 	bpy.utils.unregister_class(ZODEUTILS_WeightViewToggle)
+	bpy.utils.unregister_class(ZODEUTILS_CVWEIGHT_OT_magic)
+	bpy.utils.unregister_class(ZODEUTILS_CVWEIGHT_OT_AssignAll)
+	bpy.utils.unregister_class(ZODEUTILS_CVWEIGHT_OT_AssignSelected)
+	bpy.utils.unregister_class(ZODEUTILS_CVWEIGHT_OT_CancelAssign)
+	bpy.utils.unregister_class(VIEW3D_MT_PIE_ClassicVertexWeight)
+	bpy.utils.unregister_class(ZODEUTILS_CVWEIGHT_OT_Info)
 
 	window_manager = bpy.context.window_manager
 	if window_manager and window_manager.keyconfigs and window_manager.keyconfigs.addon:
