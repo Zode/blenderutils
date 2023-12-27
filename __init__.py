@@ -3,11 +3,12 @@ from . import addon_updater_ops
 from . import material_gui
 from . import bake_gui
 from .classicweight import *
+from .vertexbone import *
 
 bl_info = {
 	"name" : "Zode's blender utils",
 	"author" : "Zode",
-	"version" : (1, 3, 4),
+	"version" : (1, 4, 0),
 	"blender" : (4, 0, 0),
 	"description" : "Adds various utility function(s) to blender",
 	"warning": "",
@@ -68,6 +69,9 @@ class ZODEUTILS_WeightViewToggle(bpy.types.Operator):
 
 global_addon_keymaps = []
 
+def edit_vertex_menu_callback(self, context):
+    self.layout.operator("zodeutils_vertexbone.make")
+
 def register():
 	addon_updater_ops.register(bl_info)
 	bpy.utils.register_class(ZODEUTILS_PREFERENCES)
@@ -80,6 +84,8 @@ def register():
 	bpy.utils.register_class(ZODEUTILS_CVWEIGHT_OT_CancelAssign)
 	bpy.utils.register_class(VIEW3D_MT_PIE_ClassicVertexWeight)
 	bpy.utils.register_class(ZODEUTILS_CVWEIGHT_OT_Info)
+	bpy.utils.register_class(ZODEUTILS_VERTEXBONE_OT_MakeVertexBone)
+	bpy.types.VIEW3D_MT_edit_mesh_vertices.append(edit_vertex_menu_callback)
 
 	window_manager = bpy.context.window_manager
 	if window_manager.keyconfigs.addon:
@@ -108,6 +114,8 @@ def unregister():
 	bpy.utils.unregister_class(ZODEUTILS_CVWEIGHT_OT_CancelAssign)
 	bpy.utils.unregister_class(VIEW3D_MT_PIE_ClassicVertexWeight)
 	bpy.utils.unregister_class(ZODEUTILS_CVWEIGHT_OT_Info)
+	bpy.types.VIEW3D_MT_edit_mesh_vertices.remove(edit_vertex_menu_callback)
+	bpy.utils.unregister_class(ZODEUTILS_VERTEXBONE_OT_MakeVertexBone)
 
 	window_manager = bpy.context.window_manager
 	if window_manager and window_manager.keyconfigs and window_manager.keyconfigs.addon:

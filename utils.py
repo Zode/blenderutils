@@ -116,3 +116,35 @@ def GetMaterialId(material, materialslots):
 			return index
 			
 	return 0
+
+def GetChildren(obj):
+    children = []
+    for ob in bpy.data.objects:
+        if ob.parent == obj:
+            children.append(ob)
+    return children
+
+def ExistsInChildren(children, name):
+    for child in children:
+        if child.name == name:
+            return True
+    return False
+
+def GetFromChildren(children, name):
+    for child in children:
+        if child.name == name:
+            return child
+    return None
+
+def FindModifier(object, modifiertype):
+    for mod in object.modifiers:
+        if type(mod) == modifiertype:
+            return mod
+        
+    return None
+
+def RemoveModifierOfType(object, modifiertype):
+    for mod in object.modifiers:
+        if type(mod) == modifiertype:
+            object.modifiers.remove(mod)
+            return
