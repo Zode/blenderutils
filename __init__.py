@@ -7,8 +7,8 @@ from .classicweight import *
 bl_info = {
 	"name" : "Zode's blender utils",
 	"author" : "Zode",
-	"version" : (1, 2, 5),
-	"blender" : (3, 1, 0),
+	"version" : (1, 3, 0),
+	"blender" : (4, 0, 0),
 	"description" : "Adds various utility function(s) to blender",
 	"warning": "",
 	"wiki_url": "https://github.com/Zode/blenderutils",
