@@ -168,7 +168,7 @@ class ZODEUTILS_CVWEIGHT_OT_Info(bpy.types.Operator):
 			text2 = "CAN'T EDIT: VERTEX GROUP IS LOCKED"
 		else:
 			text2 = "Select vertices and press keybind again"
-		blf.size(font_id, font_size, 72)
+		blf.size(font_id, font_size)
 		text_dim = blf.dimensions(font_id, text)
 		text2_dim = blf.dimensions(font_id, text2)
 
