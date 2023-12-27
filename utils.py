@@ -77,9 +77,11 @@ def CleanMaterial(mat):
 	types = mat["zodeutils_type"]
 	retclean = False
 	for t in types:
+		#remove non-additive bsdf if applicable
 		if t == "DIFFUSE" and "ADDITIVE" not in types:
 			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfPrincipled", "Principled BSDF"))
 			retclean = True
+		#remove matcap stuff + non-additive bsd if applicable
 		elif t == "MATCAP":
 			if "ADDITIVE" not in types:
 				mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfPrincipled", "Principled BSDF"))
@@ -88,9 +90,22 @@ def CleanMaterial(mat):
 			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeVectorTransform", "Chrome"))
 			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeMapping", "Chrome"))
 			retclean = True
+		#remove additive stuff
 		elif t == "ADDITIVE":
 			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfTransparent", "Additive"))
 			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeAddShader", "Additive"))
+			retclean = True
+		#remove transparent stuff
+		elif t == "TRANSPARENT":
+			if "ADDITIVE" in types:
+				mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeBsdfTransparent", "Transparent BSDF"))
+				mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeMixShader", "Mix"))
+
+			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeRGB", "Key"))
+			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeMix", "KeySub"))
+			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeVectorMath", "KeyLen"))
+			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeMath", "KeyComp"))
+			mat.node_tree.nodes.remove(FindNodeByLabel(mat.node_tree.nodes, "ShaderNodeInvert", "KeyInv"))
 			retclean = True
 		
 	return retclean

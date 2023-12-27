@@ -15,6 +15,12 @@ class MaterialSettings(bpy.types.PropertyGroup):
 		default=False
 	)
 
+	Transparent : bpy.props.BoolProperty(
+		name="Transparent",
+		description="Make it Transparent also!",
+		default=False
+	)
+
 class ZODEUTILS_MATERIALS(bpy.types.Panel):
 	bl_label="Zode's utils"
 	bl_idname = "OBJECT_PT_ZODEUTILS_MATERIALS"
@@ -35,6 +41,7 @@ class ZODEUTILS_MATERIALS(bpy.types.Panel):
 		box.label(text="Swap selected material to:")
 		box.prop(context.scene.zodeutils_material, "NoSpec")
 		box.prop(context.scene.zodeutils_material, "Additive")
+		box.prop(context.scene.zodeutils_material, "Transparent")
 		row = box.row()
 		row.operator("zodeutils.material_to_diffuse", icon="SHADING_SOLID")
 		row.operator("zodeutils.material_to_matcap", icon="SHADING_RENDERED")
