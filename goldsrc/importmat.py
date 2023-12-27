@@ -95,7 +95,7 @@ def FixImportAllMaterials():
 				
 				#skip if already has previous setups
 				if "zodeutils_type" in mat:
-					return True
+					continue
 				
 				#not using a fancy find function here since we just assume Principled BSDF always exists :P
 				bsdf = mat.node_tree.nodes.get("Principled BSDF")
