@@ -72,7 +72,7 @@ except Exception as e:
 # not match and have errors. Must be all lowercase and no spaces! Should also
 # be unique among any other addons that could exist (using this updater code),
 # to avoid clashes in operator registration.
-updater.addon = "zodes_blenderutils"
+updater.addon = "addon_updater_demo"
 
 
 # -----------------------------------------------------------------------------
@@ -1362,7 +1362,7 @@ def register(bl_info):
     # updater.addon = # define at top of module, MUST be done first
 
     # Website for manual addon download, optional but recommended to set.
-    updater.website = "https://github.com/Zode/blenderutils"
+    updater.website = "https://github.com/Zode/blenderutils/"
 
     # Addon subfolder path.
     # "sample/path/to/addon"
@@ -1378,7 +1378,7 @@ def register(bl_info):
 
     # Optional, consider turning off for production or allow as an option
     # This will print out additional debugging info to the console
-    updater.verbose = False  # make False for production default
+    updater.verbose = True  # make False for production default
 
     # Optional, customize where the addon updater processing subfolder is,
     # essentially a staging folder used by the updater on its own
