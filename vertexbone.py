@@ -78,27 +78,30 @@ class ZODEUTILS_VERTEXBONE_OT_MakeVertexBone(bpy.types.Operator):
 
 			#this is dumb why do i have to do it this way blender?
 			bpy.ops.object.mode_set(mode="POSE")
-			boneObject = armatureObject.pose.bones["VertexBone_"+str(vert.index)] 
+			boneObject = armatureObject.pose.bones["VertexBone_"+str(vert.index)]
 			copyloc = boneObject.constraints.new("COPY_LOCATION")
 			copyloc.target = vertexProxy
 
 		bpy.ops.object.mode_set(mode="OBJECT")
+		#and naturally yeet all existing modifiers
+		newObject.modifiers.clear()
+
 		#newObject.parent = armatureObject
 		#newObject.parent_type = "ARMATURE"
 		armModifier = newObject.modifiers.new(name="VertexBoned", type="ARMATURE")
 		armModifier.object = armatureObject
 
+
 		#original has armature? copy that and join with the newly created armature
 		originalArmMod = FindModifier(originalObject, bpy.types.ArmatureModifier)
 		if originalArmMod is not None:
-			RemoveModifierOfType(newObject, bpy.types.ArmatureModifier)
 			proxyArmature = originalArmMod.object.copy()
 			proxyArmature.data = originalArmMod.object.data.copy()
-			proxyArmature.animation_data_clear()
 			vertexCollection.objects.link(proxyArmature)
 			
 			bpy.context.view_layer.objects.active = proxyArmature
 			bpy.ops.object.mode_set(mode="POSE")
+			originalRootName = proxyArmature.pose.bones[0].name
 			for bone in proxyArmature.pose.bones:
 				bone.matrix_basis = Matrix() #reset to identity otherwise the armature will have whatever pose was in the current frame
 				originalBone = originalArmMod.object.pose.bones.get(bone.name)
