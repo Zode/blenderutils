@@ -9,6 +9,8 @@ Target blender version: 4.0
 * EZ one stop shop for texture baking
 * classic vertex weighting (hit shift+q in weight paint mode)
 * keybind to toggle custom weight gradient (hit ctrl+shift+q)
+### Edit mode
+* In vertex menu: New option "vertex bones: make from selected" which will take the selected vertices, and make a proxy object & armature with said vertices rigged into bones controlled by the original mesh's vertices. Effectively allowing one to turn vertex animation into bone animation for goldsrc and others.
 
 #  Installing & Updating
 ## Installing
