@@ -160,76 +160,78 @@ class ZODEUTILS_VERTEXBONE_OT_MakeVertexBoneObject(bpy.types.Operator):
 		if not bpy.context.object.mode == "OBJECT":
 			return {"FINISHED"}
 		
-		if bpy.context.view_layer.objects.active is None:
+		if len(bpy.context.selected_objects) < 1:
 			return {"FINISHED"}
 		
-		originalObject = bpy.context.active_object
-		bpy.ops.object.mode_set(mode="OBJECT")
-		bpy.ops.object.select_all(action="DESELECT")
+		selectList = bpy.context.selected_objects
 
-		#setup collection and object
-		vertexCollection = FindCollectionByName("VertexBoned")
-		if vertexCollection is None:
-			vertexCollection = bpy.data.collections.new("VertexBoned")
-			bpy.context.scene.collection.children.link(vertexCollection)
+		for originalObject in selectList:
+			bpy.ops.object.mode_set(mode="OBJECT")
+			bpy.ops.object.select_all(action="DESELECT")
 
-		newObject = GetFromCollection(vertexCollection, f"{originalObject.name}_vbproxy")
-		if newObject is None:
-			newObject = originalObject.copy()
-			newObject.name = f"{originalObject.name}_vbproxy"
-			newObject.data = originalObject.data.copy()
-			newObject.animation_data_clear()
-			vertexCollection.objects.link(newObject)
+			#setup collection and object
+			vertexCollection = FindCollectionByName("VertexBoned")
+			if vertexCollection is None:
+				vertexCollection = bpy.data.collections.new("VertexBoned")
+				bpy.context.scene.collection.children.link(vertexCollection)
 
-		if newObject.data.shape_keys is not None:
-			newObject.active_shape_key_index = 0
-			newObject.shape_key_clear()
+			newObject = GetFromCollection(vertexCollection, f"{originalObject.name}_vbproxy")
+			if newObject is None:
+				newObject = originalObject.copy()
+				newObject.name = f"{originalObject.name}_vbproxy"
+				newObject.data = originalObject.data.copy()
+				newObject.animation_data_clear()
+				vertexCollection.objects.link(newObject)
 
-		armature = None
-		armatureObject = GetFromCollection(vertexCollection, f"{originalObject.name}_vbarm")
-		if armatureObject is None:
-			armature = bpy.data.armatures.new(name=f"{originalObject.name}_vbarm")
-			armatureObject = bpy.data.objects.new(name=f"{originalObject.name}_vbarm", object_data=armature)
-			vertexCollection.objects.link(armatureObject)
-		else:
-			armature = armatureObject.data
+			if newObject.data.shape_keys is not None:
+				newObject.active_shape_key_index = 0
+				newObject.shape_key_clear()
 
-		#setup proxies
-		bpy.context.view_layer.objects.active = armatureObject
-		bpy.ops.object.mode_set(mode="EDIT")
-		bone = GetFromEditBones(armature, f"{originalObject.name}_VertexBone_obj")
-		isNewBone = False
-		if bone is None:
-			bone = armature.edit_bones.new(name=f"{originalObject.name}_VertexBone_obj")
-			bone.head = newObject.matrix_world.to_translation()
-			bone.tail = bone.head + Vector((0,0.15,0))
-			isNewBone = True
+			armature = None
+			armatureObject = GetFromCollection(vertexCollection, f"{originalObject.name}_vbarm")
+			if armatureObject is None:
+				armature = bpy.data.armatures.new(name=f"{originalObject.name}_vbarm")
+				armatureObject = bpy.data.objects.new(name=f"{originalObject.name}_vbarm", object_data=armature)
+				vertexCollection.objects.link(armatureObject)
+			else:
+				armature = armatureObject.data
 
-		vertList = []
-		for vert in newObject.data.vertices:
-			vertList.append(vert.index)
+			#setup proxies
+			bpy.context.view_layer.objects.active = armatureObject
+			bpy.ops.object.mode_set(mode="EDIT")
+			bone = GetFromEditBones(armature, f"{originalObject.name}_VertexBone_obj")
+			isNewBone = False
+			if bone is None:
+				bone = armature.edit_bones.new(name=f"{originalObject.name}_VertexBone_obj")
+				bone.head = newObject.matrix_world.to_translation()
+				bone.tail = bone.head + Vector((0,0.15,0))
+				isNewBone = True
 
-		vertexGroup = GetFromVertexGroups(newObject, f"{originalObject.name}_VertexBone_obj")
-		if vertexGroup is None:
-			vertexGroup = newObject.vertex_groups.new(name=f"{originalObject.name}_VertexBone_obj")
-			vertexGroup.add(vertList, 1.0, "REPLACE")
+			vertList = []
+			for vert in newObject.data.vertices:
+				vertList.append(vert.index)
 
-		if isNewBone:
-			bpy.ops.object.mode_set(mode="POSE")
-			boneObject = armatureObject.pose.bones[f"{originalObject.name}_VertexBone_obj"]
-			copytrans = boneObject.constraints.new("COPY_TRANSFORMS")
-			copytrans.target = originalObject
+			vertexGroup = GetFromVertexGroups(newObject, f"{originalObject.name}_VertexBone_obj")
+			if vertexGroup is None:
+				vertexGroup = newObject.vertex_groups.new(name=f"{originalObject.name}_VertexBone_obj")
+				vertexGroup.add(vertList, 1.0, "REPLACE")
 
-		bpy.ops.object.mode_set(mode="OBJECT")
-		#and naturally yeet all existing modifiers
-		bpy.context.view_layer.objects.active = newObject
-		newObject.modifiers.clear()
-		if bpy.context.object.rigid_body is not None:
-			bpy.ops.rigidbody.object_remove()
+			if isNewBone:
+				bpy.ops.object.mode_set(mode="POSE")
+				boneObject = armatureObject.pose.bones[f"{originalObject.name}_VertexBone_obj"]
+				copytrans = boneObject.constraints.new("COPY_TRANSFORMS")
+				copytrans.target = originalObject
 
-		armModifier = newObject.modifiers.new(name="VertexBoned", type="ARMATURE")
-		armModifier.object = armatureObject
+			bpy.ops.object.mode_set(mode="OBJECT")
+			#and naturally yeet all existing modifiers
+			bpy.context.view_layer.objects.active = newObject
+			newObject.modifiers.clear()
+			if bpy.context.object.rigid_body is not None:
+				bpy.ops.rigidbody.object_remove()
 
-		bpy.context.view_layer.objects.active = originalObject
+			armModifier = newObject.modifiers.new(name="VertexBoned", type="ARMATURE")
+			armModifier.object = armatureObject
 
+			bpy.context.view_layer.objects.active = originalObject
+			
 		return {"FINISHED"}
