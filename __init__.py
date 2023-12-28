@@ -8,7 +8,7 @@ from .vertexbone import *
 bl_info = {
 	"name" : "Zode's blender utils",
 	"author" : "Zode",
-	"version" : (1, 4, 2),
+	"version" : (1, 4, 3),
 	"blender" : (4, 0, 0),
 	"description" : "Adds various utility function(s) to blender",
 	"warning": "",
@@ -72,6 +72,10 @@ global_addon_keymaps = []
 def edit_vertex_menu_callback(self, context):
     self.layout.operator("zodeutils_vertexbone.make")
 
+def object_menu_callback(self, context):
+    self.layout.operator("zodeutils_vertexbone.makeobject")
+
+
 def register():
 	addon_updater_ops.register(bl_info)
 	bpy.utils.register_class(ZODEUTILS_PREFERENCES)
@@ -85,7 +89,9 @@ def register():
 	bpy.utils.register_class(VIEW3D_MT_PIE_ClassicVertexWeight)
 	bpy.utils.register_class(ZODEUTILS_CVWEIGHT_OT_Info)
 	bpy.utils.register_class(ZODEUTILS_VERTEXBONE_OT_MakeVertexBone)
+	bpy.utils.register_class(ZODEUTILS_VERTEXBONE_OT_MakeVertexBoneObject)
 	bpy.types.VIEW3D_MT_edit_mesh_vertices.append(edit_vertex_menu_callback)
+	bpy.types.VIEW3D_MT_object.append(object_menu_callback)
 
 	window_manager = bpy.context.window_manager
 	if window_manager.keyconfigs.addon:
@@ -115,7 +121,9 @@ def unregister():
 	bpy.utils.unregister_class(VIEW3D_MT_PIE_ClassicVertexWeight)
 	bpy.utils.unregister_class(ZODEUTILS_CVWEIGHT_OT_Info)
 	bpy.types.VIEW3D_MT_edit_mesh_vertices.remove(edit_vertex_menu_callback)
+	bpy.types.VIEW3D_MT_object.remove(object_menu_callback)
 	bpy.utils.unregister_class(ZODEUTILS_VERTEXBONE_OT_MakeVertexBone)
+	bpy.utils.unregister_class(ZODEUTILS_VERTEXBONE_OT_MakeVertexBoneObject)
 
 	window_manager = bpy.context.window_manager
 	if window_manager and window_manager.keyconfigs and window_manager.keyconfigs.addon:

@@ -148,3 +148,31 @@ def RemoveModifierOfType(object, modifiertype):
         if type(mod) == modifiertype:
             object.modifiers.remove(mod)
             return
+		
+def FindCollectionByName(name):
+	for collection in bpy.data.collections:
+		if collection.name == name:
+			return collection
+		
+	return None
+
+def GetFromCollection(collection, name):
+	for obj in collection.all_objects:
+		if obj.name == name:
+			return obj
+		
+	return None
+
+def GetFromEditBones(arm, name):
+	for bone in arm.edit_bones:
+		if bone.name == name:
+			return bone
+
+	return None
+
+def GetFromVertexGroups(obj, name):
+	for group in obj.vertex_groups:
+		if group.name == name:
+			return group
+		
+	return None
