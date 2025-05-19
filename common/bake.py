@@ -27,17 +27,31 @@ def bake(mode, flags):
 	bakesettings.LowpolyObject.select_set(True)
 	bpy.context.view_layer.objects.active = bakesettings.LowpolyObject
 	
+	print(f"high {bakesettings.HighpolyObject}")
+	print(f"low {bakesettings.LowpolyObject}")
+
 	if len(bpy.context.selected_objects) < 2:
 		Popup(message="Can't bake: Select error!", title="Error", icon="ERROR")
 		bake_operators.ClearBakeQueue()
 		return
 	
-	target = bpy.context.selected_objects[1]
+	source = bakesettings.HighpolyObject
+	if len(source.material_slots) <= 0:
+		Popup(message="Can't bake: Highpoly mesh has no material!", title="Error", icon="ERROR")
+		bake_operators.ClearBakeQueue()
+		return
+
+	target = bakesettings.LowpolyObject
 	if len(target.material_slots) <= 0:
 		Popup(message="Can't bake: Lowpoly mesh has no material!", title="Error", icon="ERROR")
 		bake_operators.ClearBakeQueue()
 		return
 	
+	if bakesettings.TargetMaterial not in target.material_slots:
+		Popup(message="Can't bake: Failed to get target material!", title="Error", icon="ERROR")
+		bake_operators.ClearBakeQueue()
+		return
+
 	#todo: multiple material handling
 	target.active_material_index = GetMaterialId(bakesettings.TargetMaterial, target.material_slots)
 	
