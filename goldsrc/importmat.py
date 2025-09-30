@@ -22,24 +22,27 @@ def FixImportMaterials():
 		texturepathwithsubfolder = f"//textures/{mat.name}"
 		#this helps with error handling when loading the textures
 		textureerrors = 0
+		exception = ""
+		exceptionsubfolder = ""
 		try:
 			texture = bpy.data.images.load(texturepath, check_existing=True)
 		except Exception as e:
 			textureerrors += 1
+			exception = e
 		
 		try:
 			texture = bpy.data.images.load(texturepathwithsubfolder, check_existing=True)
-		except:
+		except Exception as e:
 			textureerrors += 1
-			
+			exceptionsubfolder = e
 		
 		if textureerrors > 1:
 			Popup(message=f"Can't load image: {texturepath}!", title="Error", icon="ERROR")
-			print(f"Can't load image: {texturepath}!\n{e}")
+			print(f"Can't load image: {texturepath}!\n{exception}")
 			return False
 
 			Popup(message=f"Can't load image: {texturepathwithsubfolder}!", title="Error", icon="ERROR")
-			print(f"Can't load image: {texturepathwithsubfolder}!\n{e}")
+			print(f"Can't load image: {texturepathwithsubfolder}!\n{exceptionsubfolder}")
 			return False
 		
 		texturenode.image = texture
