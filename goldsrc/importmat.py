@@ -1,5 +1,4 @@
 import bpy
-import os
 
 from ..utils import Popup, FindOrMakeNodeByLabel
 
