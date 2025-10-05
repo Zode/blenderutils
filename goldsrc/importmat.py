@@ -4,6 +4,16 @@ from ..utils import Popup, FindOrMakeNodeByLabel
 
 #TODO: make both functions call the mat.py ones for node setups
 
+def findTexture():
+	texturepaths = [f"//{mat.name}", f"//textures/{mat.name}"]
+	for p in texturepaths:
+		try:
+			texture = bpy.data.images.load(p, check_existing=True)
+			return p
+		except:
+			pass
+	return texturepaths[0]
+
 def FixImportMaterials():
 	if not bpy.data.is_saved:
 		Popup(message="File must be saved for relative paths!", title="Error", icon="ERROR")
@@ -17,31 +27,12 @@ def FixImportMaterials():
 		
 		texturenode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeTexImage", "Albedo", (-300.0, 218.0))
 		
-		texturepath = f"//{mat.name}"
-		texturepathwithsubfolder = f"//textures/{mat.name}"
-		#this helps with error handling when loading the textures
-		textureerrors = 0
-		exception = ""
-		exceptionsubfolder = ""
+		texturepath = findTexture()
 		try:
 			texture = bpy.data.images.load(texturepath, check_existing=True)
 		except Exception as e:
-			textureerrors += 1
-			exception = e
-		
-		try:
-			texture = bpy.data.images.load(texturepathwithsubfolder, check_existing=True)
-		except Exception as e:
-			textureerrors += 1
-			exceptionsubfolder = e
-		
-		if textureerrors > 1:
 			Popup(message=f"Can't load image: {texturepath}!", title="Error", icon="ERROR")
-			print(f"Can't load image: {texturepath}!\n{exception}")
-			return False
-
-			Popup(message=f"Can't load image: {texturepathwithsubfolder}!", title="Error", icon="ERROR")
-			print(f"Can't load image: {texturepathwithsubfolder}!\n{exceptionsubfolder}")
+			print(f"Can't load image: {texturepath}!\n{e}")
 			return False
 		
 		texturenode.image = texture
@@ -101,7 +92,7 @@ def FixImportAllMaterials():
 				
 				texturenode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeTexImage", "Albedo", (-300.0, 218.0))
 				
-				texturepath = f"//{mat.name}"
+				texturepath = findTexture()
 				try:
 					texture = bpy.data.images.load(texturepath, check_existing=True)
 				except Exception as e:
