@@ -1,18 +1,21 @@
 import bpy
+import os.path
 
 from ..utils import Popup, FindOrMakeNodeByLabel
 
 #TODO: make both functions call the mat.py ones for node setups
 
-def findTexture():
-	texturepaths = [f"//{mat.name}", f"//textures/{mat.name}"]
-	for p in texturepaths:
-		try:
-			texture = bpy.data.images.load(p, check_existing=True)
-			return p
-		except:
-			pass
-	return texturepaths[0]
+def FindTexture(mat):
+	#uppercase variants because unix land :weary:
+	subPaths = ["", "textures", "texture", "Textures", "Texture"]
+	for subPath in subPaths:
+		potentialPath = bpy.path.abspath(os.path.join("//", subPath, mat.name))
+		if not os.path.isfile(potentialPath):
+			continue
+
+		return potentialPath
+
+	return None
 
 def FixImportMaterials():
 	if not bpy.data.is_saved:
@@ -27,7 +30,12 @@ def FixImportMaterials():
 		
 		texturenode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeTexImage", "Albedo", (-300.0, 218.0))
 		
-		texturepath = findTexture()
+		texturepath = FindTexture(mat)
+		if texturepath is None:
+			Popup(message=f"Couldn't find texture: {mat.name}!", title="Error", icon="ERROR")
+			print(f"Couldn't find texture: {mat.name}!")
+			return False
+
 		try:
 			texture = bpy.data.images.load(texturepath, check_existing=True)
 		except Exception as e:
@@ -92,7 +100,12 @@ def FixImportAllMaterials():
 				
 				texturenode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeTexImage", "Albedo", (-300.0, 218.0))
 				
-				texturepath = findTexture()
+				texturepath = FindTexture()
+				if texturepath is None:
+					Popup(message=f"Couldn't find texture: {mat.name}!", title="Error", icon="ERROR")
+					print(f"Couldn't find texture: {mat.name}!")
+					return False
+		
 				try:
 					texture = bpy.data.images.load(texturepath, check_existing=True)
 				except Exception as e:
