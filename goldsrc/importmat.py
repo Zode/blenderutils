@@ -9,7 +9,7 @@ def FindTexture(mat):
 	#uppercase variants because unix land :weary:
 	subPaths = ["", "textures", "texture", "Textures", "Texture"]
 	for subPath in subPaths:
-		potentialPath = bpy.path.abspath(os.path.join("//", subPath, mat.name))
+		potentialPath = bpy.path.abspath(os.path.join(bpy.path.abspath("//"), subPath, mat.name))
 		if not os.path.isfile(potentialPath):
 			continue
 
