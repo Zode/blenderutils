@@ -100,7 +100,7 @@ def FixImportAllMaterials():
 				
 				texturenode = FindOrMakeNodeByLabel(mat.node_tree.nodes, "ShaderNodeTexImage", "Albedo", (-300.0, 218.0))
 				
-				texturepath = FindTexture()
+				texturepath = FindTexture(mat)
 				if texturepath is None:
 					Popup(message=f"Couldn't find texture: {mat.name}!", title="Error", icon="ERROR")
 					print(f"Couldn't find texture: {mat.name}!")
