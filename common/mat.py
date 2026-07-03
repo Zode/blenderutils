@@ -29,6 +29,7 @@ def MakeMaterialDiffuse():
 	
 	mat.blend_method = "OPAQUE"
 	mat["zodeutils_type"] = ["DIFFUSE"]
+	mat.use_backface_culling = bpy.context.scene.zodeutils_material.CullBackface
 	
 	if bpy.context.scene.zodeutils_material.Additive:
 		MaterialAddAdditive(mat)
@@ -79,6 +80,7 @@ def MakeMaterialMatcap():
 	
 	mat.blend_method = "OPAQUE"
 	mat["zodeutils_type"] = ["MATCAP"]
+	mat.use_backface_culling = bpy.context.scene.zodeutils_material.CullBackface
 	
 	if bpy.context.scene.zodeutils_material.Additive:
 		MaterialAddAdditive(mat)

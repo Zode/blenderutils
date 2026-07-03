@@ -7,19 +7,25 @@ class MaterialSettings(bpy.types.PropertyGroup):
 		name="No specular & metallic",
 		description="Zero out specular & metallic",
 		default=True
-	)
+	) # type: ignore
+
+	CullBackface : bpy.props.BoolProperty(
+		name="Cull backfaces",
+		description="Cull out backfaces",
+		default=True
+	) # type: ignore
 	
 	Additive : bpy.props.BoolProperty(
 		name="Additive",
 		description="Make it additive also!",
 		default=False
-	)
+	) # type: ignore
 
 	Transparent : bpy.props.BoolProperty(
 		name="Transparent",
 		description="Make it Transparent also!",
 		default=False
-	)
+	) # type: ignore
 
 class ZODEUTILS_MATERIALS(bpy.types.Panel):
 	bl_label="Zode's utils"
@@ -40,6 +46,7 @@ class ZODEUTILS_MATERIALS(bpy.types.Panel):
 		box = self.layout.box()
 		box.label(text="Swap selected material to:")
 		box.prop(context.scene.zodeutils_material, "NoSpec")
+		box.prop(context.scene.zodeutils_material, "CullBackface")
 		box.prop(context.scene.zodeutils_material, "Additive")
 		box.prop(context.scene.zodeutils_material, "Transparent")
 		row = box.row()
