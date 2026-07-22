@@ -1,4 +1,4 @@
-Target blender version: 4.0
+Target blender version: 5.2
 
 # Features
 ## Materials

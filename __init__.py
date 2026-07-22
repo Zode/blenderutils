@@ -8,8 +8,8 @@ from .vertexbone import *
 bl_info = {
 	"name" : "Zode's blender utils",
 	"author" : "Zode",
-	"version" : (1, 4, 8),
-	"blender" : (4, 4, 0),
+	"version" : (1, 4, 9),
+	"blender" : (5, 2, 0),
 	"description" : "Adds various utility function(s) to blender",
 	"warning": "",
 	"wiki_url": "https://github.com/Zode/blenderutils",
