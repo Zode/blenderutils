@@ -18,11 +18,14 @@ def FindTexture(mat):
 	return None
 
 def TryFixImportMaterialsForObject(obj):
+	print(f"Checking importing materials for {obj.name}")
 	for materialslot in obj.material_slots:
 		mat = materialslot.material
-
-		if not ".bmp" in mat.name:
+		
+		if not ".bmp" in mat.name.lower():
 			continue
+
+		print(f"Importing material for {obj.name}: {mat.name}")
 		
 		if not mat.use_nodes:
 			mat.use_nodes = True
