@@ -179,7 +179,7 @@ class BakeSettings(bpy.types.PropertyGroup):
 		description="Set influences",
 		items=(
 			("DIRECT", "Direct", "Add direct lighting contribution"),
-			("INDIRECT", "Inirect", "Add indirect lighting contribution"),
+			("INDIRECT", "Indirect", "Add indirect lighting contribution"),
 			("COLOR", "Color", "Color the pass")
 		),
 		options = {"ENUM_FLAG"},
@@ -197,7 +197,7 @@ class BakeSettings(bpy.types.PropertyGroup):
 		description="Set influences",
 		items=(
 			("DIRECT", "Direct", "Add direct lighting contribution"),
-			("INDIRECT", "Inirect", "Add indirect lighting contribution"),
+			("INDIRECT", "Indirect", "Add indirect lighting contribution"),
 			("COLOR", "Color", "Color the pass")
 		),
 		options = {"ENUM_FLAG"},
@@ -215,7 +215,7 @@ class BakeSettings(bpy.types.PropertyGroup):
 		description="Set influences",
 		items=(
 			("DIRECT", "Direct", "Add direct lighting contribution"),
-			("INDIRECT", "Inirect", "Add indirect lighting contribution"),
+			("INDIRECT", "Indirect", "Add indirect lighting contribution"),
 			("COLOR", "Color", "Color the pass")
 		),
 		options = {"ENUM_FLAG"},
@@ -233,7 +233,7 @@ class BakeSettings(bpy.types.PropertyGroup):
 		description="Set influences",
 		items=(
 			("DIRECT", "Direct", "Add direct lighting contribution"),
-			("INDIRECT", "Inirect", "Add indirect lighting contribution"),
+			("INDIRECT", "Indirect", "Add indirect lighting contribution"),
 			("COLOR", "Color", "Color the pass")
 		),
 		options = {"ENUM_FLAG"},
@@ -251,7 +251,7 @@ class BakeSettings(bpy.types.PropertyGroup):
 		description="Set influences",
 		items=(
 			("DIRECT", "Direct", "Add direct lighting contribution"),
-			("INDIRECT", "Inirect", "Add indirect lighting contribution")
+			("INDIRECT", "Indirect", "Add indirect lighting contribution")
 		),
 		options = {"ENUM_FLAG"},
 		default={"DIRECT", "INDIRECT"}
